@@ -141,5 +141,5 @@ build_prompt() {
 }
 
 # Prompt format » ►
-PROMPT='%{%f%b%k%}$(build_prompt)'
+PROMPT='%{%f%b%k%}$(build_prompt) '
 RPROMPT='%{$GREEN_BOLD%}%{$WHITE%}[$(git_prompt_short_sha)$(rprompt_logged_users) $(rprompt_load) $(rprompt_mem)%{$WHITE%}]%{$RESET_COLOR%}'
