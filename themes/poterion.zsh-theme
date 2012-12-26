@@ -96,24 +96,44 @@ rprompt_logged_users() {
 }
 
 rprompt_load() {
-	local L1=$(uptime | cut -d" " -f13 | cut -d"," -f1)
-	local L5=$(uptime | cut -d" " -f14 | cut -d"," -f1)
-	local L15=$(uptime | cut -d" " -f15 | cut -d"," -f1)
+	local L1=$(uptime | sed 's/  / /g' | cut -d" " -f11 | cut -d"," -f1)
+	local L5=$(uptime | sed 's/  / /g' | cut -d" " -f12 | cut -d"," -f1)
+	local L15=$(uptime | sed 's/  / /g' | cut -d" " -f13 | cut -d"," -f1)
 	local CORES=$(grep 'model name' /proc/cpuinfo | wc -l)
 	local LC1=$(echo "scale=2;$L1/$CORES" | bc)
 	local LC5=$(echo "scale=2;$L5/$CORES" | bc)
 	local LC15=$(echo "scale=2;$L15/$CORES" | bc)
 
 	echo -n "%{$WHITE%}l:"
-	[[ $LC1 -lt 1 ]] && echo -n "%{$GREEN%}0$LC1 "
-	[[ $LC1 -eq 1 ]] && echo -n "%{$YELLOW%}$LC1 "
-	[[ $LC1 -gt 1 ]] && echo -n "%{$RED%}$LC1 "
-	[[ $LC5 -lt 1 ]] && echo -n "%{$GREEN%}0$LC5 "
-	[[ $LC5 -eq 1 ]] && echo -n "%{$YELLOW%}$LC5 "
-	[[ $LC5 -gt 1 ]] && echo -n "%{$RED%}$LC5 "
-	[[ $LC15 -lt 1 ]] && echo -n "%{$GREEN%}0$LC15"
-	[[ $LC15 -eq 1 ]] && echo -n "%{$YELLOW%}$LC15"
-	[[ $LC15 -gt 1 ]] && echo -n "%{$RED%}$LC15"
+	if [[ $LC1 -eq 0 ]]; then
+		echo -n "%{$GREEN%}0.$LC1 "
+	elif [[ $LC1 -lt 1 ]]; then
+		echo -n "%{$GREEN%}0$LC1 "
+	elif [[ $LC1 -eq 1 ]]; then
+		echo -n "%{$YELLOW%}$LC1 "
+	elif [[ $LC1 -gt 1 ]]; then
+		echo -n "%{$RED%}$LC1 "
+	fi
+
+	if [[ $LC5 -eq 0 ]]; then
+		echo -n "%{$GREEN%}0.$LC5 "
+	elif [[ $LC5 -lt 1 ]]; then
+		echo -n "%{$GREEN%}0$LC5 "
+	elif [[ $LC5 -eq 1 ]]; then
+		echo -n "%{$YELLOW%}$LC5 "
+	elif [[ $LC5 -gt 1 ]]; then
+		echo -n "%{$RED%}$LC5 "
+	fi
+
+	if [[ $LC15 -eq 0 ]]; then
+		echo -n "%{$GREEN%}0.$LC15"
+	elif [[ $LC15 -lt 1 ]]; then
+		echo -n "%{$GREEN%}0$LC15"
+	elif [[ $LC15 -eq 1 ]]; then
+		echo -n "%{$YELLOW%}$LC15"
+	elif [[ $LC15 -gt 1 ]]; then
+		echo -n "%{$RED%}$LC15"
+	fi
 }
 
 rprompt_mem() {
