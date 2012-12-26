@@ -106,7 +106,7 @@ rprompt_load() {
 
 	echo -n "%{$WHITE%}l:"
 	if [[ $LC1 -eq 0 ]]; then
-		echo -n "%{$GREEN%}0.$LC1 "
+		echo -n "%{$GREEN%}0.0$LC1 "
 	elif [[ $LC1 -lt 1 ]]; then
 		echo -n "%{$GREEN%}0$LC1 "
 	elif [[ $LC1 -eq 1 ]]; then
@@ -116,7 +116,7 @@ rprompt_load() {
 	fi
 
 	if [[ $LC5 -eq 0 ]]; then
-		echo -n "%{$GREEN%}0.$LC5 "
+		echo -n "%{$GREEN%}0.0$LC5 "
 	elif [[ $LC5 -lt 1 ]]; then
 		echo -n "%{$GREEN%}0$LC5 "
 	elif [[ $LC5 -eq 1 ]]; then
@@ -126,7 +126,7 @@ rprompt_load() {
 	fi
 
 	if [[ $LC15 -eq 0 ]]; then
-		echo -n "%{$GREEN%}0.$LC15"
+		echo -n "%{$GREEN%}0.0$LC15"
 	elif [[ $LC15 -lt 1 ]]; then
 		echo -n "%{$GREEN%}0$LC15"
 	elif [[ $LC15 -eq 1 ]]; then
