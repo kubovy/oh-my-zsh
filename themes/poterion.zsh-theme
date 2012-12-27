@@ -96,16 +96,10 @@ rprompt_logged_users() {
 }
 
 rprompt_load() {
-	i=8
-	up=`uptime | sed 's/  / /g'`
-	while [[ "$(echo $up | cut -d" " -f$i)" != "average:" ]]; do
-		i=`expr $i + 1`
-	done
-	i=`expr $i + 1`
-
-	local L1=$(echo $up | cut -d" " -f$i | cut -d"," -f1)
-	local L5=$(echo $up | cut -d" " -f`expr $i + 1` | cut -d"," -f1)
-	local L15=$(echo $up | cut -d" " -f`expr $i + 2` | cut -d"," -f1)
+	up=`uptime | awk -F"load average:" '{print $2}' | tr -d "[:blank:]"`
+	local L1=$(echo $up | cut -d"," -f1)
+	local L5=$(echo $up | cut -d"," -f2)
+	local L15=$(echo $up | cut -d"," -f3)
 	local CORES=$(grep 'model name' /proc/cpuinfo | wc -l)
 	local LC1=$(echo "scale=2;$L1/$CORES" | bc)
 	local LC5=$(echo "scale=2;$L5/$CORES" | bc)
