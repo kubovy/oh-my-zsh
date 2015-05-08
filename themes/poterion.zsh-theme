@@ -60,7 +60,7 @@ MEMORY_CRITICAL=95
 prompt_dir_cut() {
 	git status &> /dev/null
 	if [[ $? -eq 0 ]]; then
-		local LENGTH=$(expr ${COLUMNS} - 70);
+		local LENGTH=$(expr ${COLUMNS} - 80);
 	else
 		local LENGTH=$(expr ${COLUMNS} - 50);
 	fi
