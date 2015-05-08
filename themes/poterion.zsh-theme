@@ -57,6 +57,33 @@ ZSH_THEME_GIT_PROMPT_SHA_AFTER=" "
 MEMORY_WARNING=75
 MEMORY_CRITICAL=95
 
+prompt_dir_cut() {
+	git status &> /dev/null
+	if [[ $? -eq 0 ]]; then
+		local LENGTH=$(expr ${COLUMNS} - 70);
+	else
+		local LENGTH=$(expr ${COLUMNS} - 50);
+	fi
+	if [[ ${LENGTH} -lt 20 ]]; then
+		LENGTH=20;
+	fi
+	local CUT=$(expr ${LENGTH} - 10);
+
+	local DIR=$(pwd|sed -e "s|$HOME|~|");
+	if [ ${#DIR} -gt ${LENGTH} ]; then
+		echo -n "${DIR:0:7}...${DIR:${#DIR}-${CUT}}";
+	else
+		echo -n "${DIR}";
+	fi
+}
+
+prompt_dir() {
+	{
+		prompt_dir_cut 2> /dev/null
+	} || {
+		echo -n "%~%u<${PWD}>"
+	}
+}
 
 prompt_git() {
 	git status &> /dev/null
@@ -155,7 +182,9 @@ rprompt_mem() {
 build_prompt() {
 	RETVAL=$?
 	prompt_user
-	echo -n "%{$WHITE%}:%{$BLUE_BOLD%}%~%u "
+	echo -n "%{$WHITE%}:%{$BLUE_BOLD%}" # "%~%u "
+	prompt_dir
+	echo -n "%u "
 	prompt_git
 	prompt_jobs
 	prompt_result
