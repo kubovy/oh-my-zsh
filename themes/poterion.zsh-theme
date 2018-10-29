@@ -127,7 +127,7 @@ rprompt_load() {
 	local L1=$(echo $up | cut -d"," -f1)
 	local L5=$(echo $up | cut -d"," -f2)
 	local L15=$(echo $up | cut -d"," -f3)
-	local CORES=$(grep 'model name' /proc/cpuinfo | wc -l)
+	local CORES=$((grep 'model name' /proc/cpuinfo || grep 'processor' /proc/cpuinfo) | wc -l)
 	local LC1=$(echo "scale=2;$L1/$CORES" | bc)
 	local LC5=$(echo "scale=2;$L5/$CORES" | bc)
 	local LC15=$(echo "scale=2;$L15/$CORES" | bc)
